@@ -17,9 +17,14 @@ namespace BusinessLogic
             _booksRepo = new BookRepository(); //DATAACCESS
         }
 
-        public void Add(Book b)
+        public bool Add(Book b)
         {
-            _booksRepo.Add(b);
+            if (_booksRepo.GetBooks().SingleOrDefault(x=>x.Isbn == b.Isbn) == null)
+            {
+                  _booksRepo.Add(b);
+                return true;
+            }
+            return false;
         }
 
         public List<Book> GetBooks() //using List because the presentation is going get a definite/final list

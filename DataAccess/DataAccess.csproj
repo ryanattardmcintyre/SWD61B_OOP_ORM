@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="BookRepository.cs" />
     <Compile Include="ConnectionClass.cs" />
+    <Compile Include="GenresRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

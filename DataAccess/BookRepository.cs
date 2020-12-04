@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
+    //In the DataAccess we will implement code that will interact DIRECTLY with the database
+
     public class BookRepository: ConnectionClass
     {
         public BookRepository():base()
@@ -26,6 +28,7 @@ namespace DataAccess
             return MyConnection.Books;
         }
 
+       
 
     }
 }
