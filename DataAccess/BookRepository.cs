@@ -23,11 +23,29 @@ namespace DataAccess
             MyConnection.SaveChanges();
         }
 
-        public IQueryable<Book> GetBooks()
+        public IQueryable<Book> GetBooks() //Select
         {
             return MyConnection.Books;
         }
 
+
+        public void Delete(Book b)
+        {
+            MyConnection.Books.Remove(b);
+            MyConnection.SaveChanges();
+        }
+
+        public void Update(Book withNewDetails)
+        {
+            MyConnection.SaveChanges();
+
+        }
+
+        public Book GetBook(string isbn)
+        {
+            return MyConnection.Books.SingleOrDefault(x => x.Isbn == isbn);
+
+        }
        
 
     }

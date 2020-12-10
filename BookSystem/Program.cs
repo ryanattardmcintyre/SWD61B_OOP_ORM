@@ -70,6 +70,10 @@ namespace BookSystem
 
                     case 2:
                         //Get Books
+                        List<Book> listOfAllBooks = bs.GetBooks();
+                        DisplayListOfBooks(listOfAllBooks);
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
                         break;
 
                     case 3:
@@ -81,9 +85,61 @@ namespace BookSystem
                         }
                         Console.WriteLine();
                         Console.WriteLine("Select one of the Genres by inputting the number next to the name: ");
+                        int selectedGenre = Convert.ToInt32(Console.ReadLine());
+
+                        //overloading
+                        //static polymorphism
+                        var listOfBooksFilteredByGenre = bs.GetBooks(selectedGenre);
+                        DisplayListOfBooks(listOfBooksFilteredByGenre);
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
 
 
 
+                        break;
+
+                    case 4:
+                        var total = bs.GetTotalNoOfBooks();
+
+                        Console.WriteLine($"The total no of books in the library db is {total}");
+                        Console.WriteLine();
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+
+                        break;
+
+                    case 5:
+                        Console.WriteLine("Please input the no. next to the field you want to sort books by");
+                        Console.WriteLine("1. Name");
+                        Console.WriteLine("2. Author");
+                        Console.WriteLine("3. Year");
+                        Console.WriteLine("Input 1-3: ");
+                        int fieldChoice =   Convert.ToInt32(Console.ReadLine());
+
+                        var sortedList = bs.GetBooksSorted(fieldChoice);
+                        DisplayListOfBooks(sortedList);
+
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+
+                        break;
+
+                    case 6:
+                        break;
+
+                    case 7:
+                        break;
+
+                    case 8:
+
+                        Console.WriteLine("Author\t\tTotal");
+                        foreach(AuthorBook item in bs.GetAuthorWithNoOfBooks())
+                        {
+                            Console.WriteLine($"{item.Author}\t\t{item.Total}");
+                        }
+
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
                         break;
 
                     default:
@@ -95,12 +151,29 @@ namespace BookSystem
             } while (menuChoice != 999);
         }
 
+
+        static void DisplayListOfBooks(List<Book> booksToDisplay)
+        {
+            foreach (Book b in booksToDisplay)
+            {
+                Console.WriteLine($"Isbn: {b.Isbn}\nName: {b.Name}\nAuthor: {b.Author}\nPublisher:{b.Publisher}\nYear: {b.Year}");
+                Console.WriteLine($"Genre: {b.Genre.Name}");
+                Console.WriteLine();
+            }
+        }
+
+
         static void ShowMenu()
         {
             Console.Clear();
             Console.WriteLine("1.   Add a book");
             Console.WriteLine("2.   Get a list of books");
             Console.WriteLine("3.   Get a list of books by Genre");
+            Console.WriteLine("4.   Show no. of books");
+            Console.WriteLine("5.   Show books sorted by ...");
+            Console.WriteLine("6.   Delete a book");
+            Console.WriteLine("7.   Update book details");
+            Console.WriteLine("8.   Show no. of books per Author");
             Console.WriteLine("999. Quit");
         }
 
