@@ -7,9 +7,9 @@
       <Diagram DiagramId="b92681f2895140178c82a2ea44e86fa7" Name="Diagram1">
         <EntityTypeShape EntityType="LibraryBooksModel.Book" Width="1.5" PointX="7" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="LibraryBooksModel.Genre" Width="1.5" PointX="4.75" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LibraryBooksModel.Review" Width="1.5" PointX="9.5" PointY="2.5" IsExpanded="true" />
         <AssociationConnector Association="LibraryBooksModel.FK_Books_Genres" ManuallyRouted="false" />
-        <AssociationConnector Association="LibraryBooksModel.FK_Reviews_Books" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LibraryBooksModel.Review" Width="1.5" PointX="9.25" PointY="2.5" />
+        <AssociationConnector Association="LibraryBooksModel.FK_Reviews_Books" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

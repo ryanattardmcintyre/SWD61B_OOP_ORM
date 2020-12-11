@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LibraryBooksModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LibraryBooksModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Books">
           <Key>
             <PropertyRef Name="Isbn" />
@@ -69,8 +69,7 @@
             <End Role="Reviews" EntitySet="Reviews" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibraryBooksModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -85,7 +84,7 @@
           <Property Name="GenreFK" Type="Int32" Nullable="false" />
           <Property Name="Author" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Genre" Relationship="Self.FK_Books_Genres" FromRole="Books" ToRole="Genres" />
-          <NavigationProperty Name="Reviews" Relationship="Self.FK_Reviews_Books" FromRole="Books" ToRole="Reviews" />
+          <NavigationProperty Name="Reviews" Relationship="LibraryBooksModel.FK_Reviews_Books" FromRole="Book" ToRole="Review" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
@@ -94,16 +93,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Books" Relationship="Self.FK_Books_Genres" FromRole="Genres" ToRole="Books" />
-        </EntityType>
-        <EntityType Name="Review">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Rating" Type="Int32" Nullable="false" />
-          <Property Name="BookFK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Book" Relationship="Self.FK_Reviews_Books" FromRole="Reviews" ToRole="Books" />
         </EntityType>
         <Association Name="FK_Books_Genres">
           <End Role="Genres" Type="Self.Genre" Multiplicity="1" />
@@ -117,31 +106,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reviews_Books">
-          <End Role="Books" Type="Self.Book" Multiplicity="1" />
-          <End Role="Reviews" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Books">
-              <PropertyRef Name="Isbn" />
-            </Principal>
-            <Dependent Role="Reviews">
-              <PropertyRef Name="BookFK" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="LibraryBooksEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Books" EntityType="Self.Book" />
           <EntitySet Name="Genres" EntityType="Self.Genre" />
-          <EntitySet Name="Reviews" EntityType="Self.Review" />
           <AssociationSet Name="FK_Books_Genres" Association="Self.FK_Books_Genres">
             <End Role="Genres" EntitySet="Genres" />
             <End Role="Books" EntitySet="Books" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reviews_Books" Association="Self.FK_Reviews_Books">
-            <End Role="Books" EntitySet="Books" />
-            <End Role="Reviews" EntitySet="Reviews" />
+          <EntitySet Name="Reviews" EntityType="LibraryBooksModel.Review" />
+          <AssociationSet Name="FK_Reviews_Books" Association="LibraryBooksModel.FK_Reviews_Books">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comment" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="BookFK" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="LibraryBooksModel.FK_Reviews_Books" FromRole="Review" ToRole="Book" />
+        </EntityType>
+        <Association Name="FK_Reviews_Books">
+          <End Type="LibraryBooksModel.Book" Role="Book" Multiplicity="1" />
+          <End Type="LibraryBooksModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="Isbn" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="BookFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -171,10 +170,10 @@
           <EntitySetMapping Name="Reviews">
             <EntityTypeMapping TypeName="LibraryBooksModel.Review">
               <MappingFragment StoreEntitySet="Reviews">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="BookFK" ColumnName="BookFK" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

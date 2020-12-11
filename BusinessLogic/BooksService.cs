@@ -36,7 +36,7 @@ namespace BusinessLogic
         {
             //Select * From books where GenreFk = genreId;
 
-          return _booksRepo.GetBooks().Where(book => book.GenreFK == genreId).ToList(); //lambda
+          return _booksRepo.GetBooks().Where(book => book.GenreFK == genreId  ).ToList(); //lambda
 
            /* var list = from book in _booksRepo.GetBooks()
                        where book.GenreFK == genreId

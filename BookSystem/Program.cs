@@ -14,7 +14,7 @@ namespace BookSystem
         {
             BooksService bs = new BooksService();
             GenresService gs = new GenresService();
-
+            ReviewsService rs = new ReviewsService();
 
             int menuChoice = 0;
             do
@@ -142,6 +142,60 @@ namespace BookSystem
                         Console.ReadKey();
                         break;
 
+                    case 9:
+                        
+                        Console.WriteLine("Input isbn:");
+                        string isbnForReview = Console.ReadLine();
+
+                        Console.WriteLine("Input comment:");
+                        string commentForReview = Console.ReadLine();
+
+                        Console.WriteLine("Input rating:");
+                        int ratingForReview = Convert.ToInt32(Console.ReadLine());
+
+                        rs.ReviewABook(isbnForReview, commentForReview
+                            , ratingForReview);
+
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+
+                        break;
+
+
+                    case 10:
+
+                        Console.WriteLine("Input isbn:");
+                        string isbn1 = Console.ReadLine();
+
+                        foreach (var r in rs.GetReviews(isbn1))
+                        {
+
+                        }
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+                        break;
+
+
+                    case 11:
+                        Console.WriteLine("Input isbn:");
+                        string isbn2 = Console.ReadLine();
+
+                        Console.WriteLine($"Avg rating for this book is {rs.GetAverageRatingOfBook(isbn2)}");
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+                        break;
+
+                    case 12:
+
+                        foreach (var item in rs.GetBooksWithNoOfReviews())
+                        {
+                            Console.WriteLine($"Book isbn {item.Isbn} has {item.TotalReviews} with avg rating of {item.AvgRating}");
+                        }
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+                        break;
+
+
                     default:
                         if(menuChoice != 999)
                           Console.WriteLine("Input is not valid");
@@ -174,6 +228,12 @@ namespace BookSystem
             Console.WriteLine("6.   Delete a book");
             Console.WriteLine("7.   Update book details");
             Console.WriteLine("8.   Show no. of books per Author");
+
+            Console.WriteLine("9.   Review a book");
+            Console.WriteLine("10.  Show Reviews per book");
+            Console.WriteLine("11.  Calculate averate rating of a book");
+            Console.WriteLine("12.  Show no of Reviews per book");
+
             Console.WriteLine("999. Quit");
         }
 
