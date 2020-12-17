@@ -56,6 +56,7 @@
     <Compile Include="GenresRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReviewsRepository.cs" />
+    <Compile Include="AttendanceRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

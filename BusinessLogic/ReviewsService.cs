@@ -21,7 +21,28 @@ namespace BusinessLogic
 
         public void ReviewABook(string isbn, string comment, int rating )
         {
-            if (_bookRepo.GetBooks().SingleOrDefault(x => x.Isbn == isbn) != null)
+           /* Book desiredBook;
+            foreach (Book item in _bookRepo.GetBooks())
+            {
+                if (item.Isbn == isbn)
+                {
+                    desiredBook = item;
+                    break;
+                }
+            }
+
+            Review r = new Review();
+            r.Comment = comment;
+            r.Rating = rating;
+            r.BookFK = isbn;
+
+            _reviewRepo.Add(r);
+           */
+
+
+
+
+            if (_bookRepo.GetBooks().SingleOrDefault(item => item.Isbn == isbn) != null)
             {
                 //shall allow the review to be added
 
@@ -37,7 +58,8 @@ namespace BusinessLogic
 
         public List<Review> GetReviews(string isbn)
         {
-            return _reviewRepo.GetReviews().Where(r => r.BookFK == isbn).ToList(); //lambda
+            var list = _reviewRepo.GetReviews().Where(r => r.BookFK == isbn).ToList(); //lambda
+            return list;
         }
 
 

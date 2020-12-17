@@ -122,7 +122,10 @@ namespace BusinessLogic
             return list.ToList();
         }
 
-
+        public Book GetBook(string isbn)
+        {
+            return _booksRepo.GetBook(isbn);
+        }
 
     }
 }

@@ -10,8 +10,25 @@ namespace BookSystem
 {
     class Program
     {
+
+ 
+
+        static void AssignmentHint_validationloop()
+        {
+            string input = "";
+            do
+            { 
+                input = Console.ReadLine();
+
+            } while (input != "p" || input != "a");
+        }
+
+
+
         static void Main(string[] args)
         {
+            
+
             BooksService bs = new BooksService();
             GenresService gs = new GenresService();
             ReviewsService rs = new ReviewsService();
@@ -19,11 +36,27 @@ namespace BookSystem
             int menuChoice = 0;
             do
             {
-                ShowMenu();
-                Console.WriteLine("Input menu choice: ");
-                menuChoice = Convert.ToInt32(Console.ReadLine());
+               
 
-                Console.Clear();
+                bool correct = true;
+                do
+                {
+                    try
+                    { 
+                        ShowMenu();
+                        Console.WriteLine("Input menu choice: ");
+                        menuChoice = Convert.ToInt32(Console.ReadLine());
+                        correct = true;
+                    }
+                    catch
+                    {
+                        correct = false;
+                    }
+                }
+                while (correct == false);
+ 
+
+                 Console.Clear();
                 switch (menuChoice)
                 {
                     case 1:
@@ -32,7 +65,7 @@ namespace BookSystem
                         Book myBook = new Book();
                        
                         Console.WriteLine("Input book name: ");
-                        myBook.Name = Console.ReadLine();
+                        myBook.Name = Console.ReadLine().ToLower();
                         Console.WriteLine();
                         Console.WriteLine("Input book isbn: ");
                         myBook.Isbn = Console.ReadLine();
@@ -60,6 +93,7 @@ namespace BookSystem
                         
                         Console.WriteLine();
 
+                        
                         
                        bs.Add(myBook);
                        Console.WriteLine("Book was added successfully");
@@ -125,9 +159,48 @@ namespace BookSystem
                         break;
 
                     case 6:
+
+
                         break;
 
                     case 7:
+                        Console.WriteLine("Which book do you want to update? Input the isbn");
+                        string isbn = Console.ReadLine();
+
+                        Book myBookToEdit = new Book();
+
+                        Console.WriteLine("Input book name: ");
+                        myBookToEdit.Name = Console.ReadLine().ToLower();
+                        Console.WriteLine();
+                        
+                        Console.WriteLine("Input book publisher: ");
+                        myBookToEdit.Publisher = Console.ReadLine();
+                        Console.WriteLine();
+                        Console.WriteLine("Input book author: ");
+                        myBookToEdit.Author = Console.ReadLine();
+
+                        Console.WriteLine();
+                        Console.WriteLine("Input book year: ");
+                        myBookToEdit.Year = Convert.ToInt32(Console.ReadLine());
+
+                        //get all the genres that i have in my db
+                        Console.WriteLine();
+
+                        foreach (var g in gs.GetGenres())
+                        {
+                            Console.WriteLine($"{g.Id}. {g.Name}");
+                        }
+                        Console.WriteLine();
+                        Console.WriteLine("Select one of the Genres by inputting the number next to the name: ");
+                        myBookToEdit.GenreFK = Convert.ToInt32(Console.ReadLine());
+
+                        Console.WriteLine();
+                        bs.Update(isbn, myBookToEdit.Name, myBookToEdit.Year, myBookToEdit.Publisher, myBookToEdit.Author, myBookToEdit.GenreFK);
+
+                        Console.WriteLine("Book details updated");
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+
                         break;
 
                     case 8:
@@ -211,7 +284,7 @@ namespace BookSystem
             foreach (Book b in booksToDisplay)
             {
                 Console.WriteLine($"Isbn: {b.Isbn}\nName: {b.Name}\nAuthor: {b.Author}\nPublisher:{b.Publisher}\nYear: {b.Year}");
-                Console.WriteLine($"Genre: {b.Genre.Name}");
+                Console.WriteLine($"Genre: {b.Genre.Name}"); //a.Lesson.DateTime
                 Console.WriteLine();
             }
         }
