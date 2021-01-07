@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookSystem", "BookSystem\Bo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{BF450A9A-B6F5-49BB-A3C1-13D2FF875DD4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dbscript", "dbscript", "{DAFF5949-2670-41C3-896C-1C789E612C63}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\SQLQuery2.sql = ..\..\..\Desktop\SQLQuery2.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
